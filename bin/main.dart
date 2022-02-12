@@ -1,9 +1,16 @@
-import '../src/dtos.dart';
+import 'dart:convert';
+
+import 'package:built_collection/built_collection.dart';
+
+import 'dtos.dart';
 
 void main(List<String> arguments) {
   print('Attempting round trip...');
-  final dto = OuterDto(InnerDto(42));
+  final dto = ParentDto(BuiltList.of(<ChildDto>[]));
   final ser = dto.toJson();
-  final deser = OuterDto.fromJson(ser);
-  print('Success: $deser');
+  final json = jsonEncode(ser);
+  final deserJson = jsonDecode(json);
+  final deser = ParentDto.fromJson(deserJson);
+  print('JSON: $json');
+  print('RESULT: $deser');
 }
